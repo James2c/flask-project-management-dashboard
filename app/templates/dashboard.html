@@ -1,25 +1,38 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-    <title>Dashboard</title>
-</head>
+{% block content %}
 
-<body>
+<h1 class="mb-4">Dashboard</h1>
 
-    <h1>Dashboard</h1>
+<div class="row">
 
-    <nav>
-        <a href="/">Dashboard</a> |
-        <a href="/projects/">Projects</a>
-    </nav>
+    <div class="col-md-4">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <h5>Total Projects</h5>
+                <h2>{{ total_projects }}</h2>
+            </div>
+        </div>
+    </div>
 
-    <hr>
+    <div class="col-md-4">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <h5>Active Projects</h5>
+                <h2>{{ active_projects }}</h2>
+            </div>
+        </div>
+    </div>
 
-    <h3>Total Projects: {{ total_projects }}</h3>
-    <h3>Active Projects: {{ active_projects }}</h3>
-    <h3>Completed Projects: {{ completed_projects }}</h3>
+    <div class="col-md-4">
+        <div class="card text-white bg-secondary mb-3">
+            <div class="card-body">
+                <h5>Completed Projects</h5>
+                <h2>{{ completed_projects }}</h2>
+            </div>
+        </div>
+    </div>
 
-</body>
+</div>
 
-</html>
+{% endblock %}

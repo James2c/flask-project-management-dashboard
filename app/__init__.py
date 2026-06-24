@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, flash
 from .extensions import db
 
 

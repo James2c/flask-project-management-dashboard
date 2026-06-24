@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Edit Project</title>
+</head>
+
+<body>
+
+    <h1>Edit Project</h1>
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <p>{{ form.name.label }}<br>{{ form.name() }}</p>
+        <p>{{ form.description.label }}<br>{{ form.description() }}</p>
+        <p>{{ form.start_date.label }}<br>{{ form.start_date() }}</p>
+        <p>{{ form.due_date.label }}<br>{{ form.due_date() }}</p>
+        <p>{{ form.status.label }}<br>{{ form.status() }}</p>
+
+        <button type="submit">Update Project</button>
+    </form>
+
+    <br>
+    <a href="/projects/">Back to Projects</a>
+
+</body>
+
+</html>

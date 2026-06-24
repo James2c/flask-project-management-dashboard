@@ -1,5 +1,6 @@
 from flask import Flask
 from .extensions import db
+from .routes.projects import projects_bp
 
 
 def create_app():
@@ -10,7 +11,10 @@ def create_app():
 
     db.init_app(app)
 
+    from app.models import Project
+
     from .routes.dashboard import dashboard_bp
     app.register_blueprint(dashboard_bp)
+    app.register_blueprint(projects_bp)
 
     return app

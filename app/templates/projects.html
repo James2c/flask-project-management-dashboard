@@ -9,7 +9,33 @@
 
     <h1>Projects</h1>
 
-    <p>Projects will appear here.</p>
+    <nav>
+        <a href="/">Dashboard</a> |
+        <a href="/projects/create">Create Project</a>
+    </nav>
+
+    <hr>
+
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Start Date</th>
+            <th>Due Date</th>
+        </tr>
+
+        {% for project in projects %}
+        <tr>
+            <td>{{ project.name }}</td>
+            <td>{{ project.description }}</td>
+            <td>{{ project.status }}</td>
+            <td>{{ project.start_date }}</td>
+            <td>{{ project.due_date }}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
 
 </body>
 

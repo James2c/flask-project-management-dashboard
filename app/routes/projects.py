@@ -1,5 +1,7 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+from app.forms.task_form import TaskForm
+from app.models.task import Task
 from app.extensions import db
+from flask import Blueprint, render_template, redirect, url_for, request, flash
 from app.models.project import Project
 from app.forms.project_form import ProjectForm
 
@@ -57,13 +59,54 @@ def edit_project(project_id):
     return render_template("edit_project.html", form=form, project=project)
 
 
-@projects_bp.route("/delete/<int:project_id>", methods=["POST"])
-def delete_project(project_id):
+@projects_bp.route("/<int:project_id>", methods=["GET", "POST"])
+def project_detail(project_id):
     project = Project.query.get_or_404(project_id)
+    form = TaskForm()
 
-    db.session.delete(project)
+    if form.validate_on_submit():
+        new_task = Task(
+            title=form.title.data,
+            description=form.description.data,
+            status=form.status.data,
+            priority=form.priority.data,
+            due_date=form.due_date.data,
+            project_id=project.id
+        )
+
+        db.session.add(new_task)
+        db.session.commit()
+
+        return redirect(f"/projects/{project.id}")
+
+    return render_template(
+        "project_detail.html",
+        project=project,
+        form=form
+    )
+
+
+@projects_bp.route("/tasks/<int:task_id>/toggle", methods=["POST"])
+def toggle_task(task_id):
+    task = Task.query.get_or_404(task_id)
+
+    if task.status == "Done":
+        task.status = "To Do"
+    else:
+        task.status = "Done"
+
     db.session.commit()
 
-    flash("Project deleted successfully!", "success")
+    return redirect(url_for("projects.project_detail", project_id=task.project_id))
 
-    return redirect(url_for("projects.projects"))
+
+@projects_bp.route("/tasks/<int:task_id>/delete", methods=["POST"])
+def delete_task(task_id):
+    task = Task.query.get_or_404(task_id)
+
+    project_id = task.project_id
+
+    db.session.delete(task)
+    db.session.commit()
+
+    return redirect(url_for("projects.project_detail", project_id=project_id))

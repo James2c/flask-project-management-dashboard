@@ -35,4 +35,29 @@
 
 </div>
 
+<hr>
+
+<h3>Project Progress</h3>
+
+{% for project in projects %}
+
+<div class="progress">
+
+    <div class="progress-bar
+        {% if project.progress() == 100 %}
+            bg-success
+        {% elif project.progress() > 50 %}
+            bg-primary
+        {% else %}
+            bg-warning
+        {% endif %}" role="progressbar" style="width: {{ project.progress() }}%;">
+
+        {{ project.progress() }}%
+
+    </div>
+
+</div>
+
+{% endfor %}
+
 {% endblock %}

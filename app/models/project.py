@@ -14,6 +14,8 @@ class Project(db.Model):
 
     due_date = db.Column(db.Date)
 
+    tasks = db.relationship("Task", backref="project", cascade="all, delete-orphan")
+
     status = db.Column(
         db.String(20),
         nullable=False,
@@ -22,3 +24,12 @@ class Project(db.Model):
 
     def __repr__(self):
         return f"<Project {self.name}>"
+    
+    def progress(self):
+        total_tasks = len(self.tasks)
+        if total_tasks == 0:
+            return 0
+
+        completed_tasks = len([t for t in self.tasks if t.status == "Done"])
+
+        return round((completed_tasks / total_tasks) * 100)

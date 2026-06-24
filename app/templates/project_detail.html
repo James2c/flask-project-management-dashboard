@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>{{ project.name }}</h1>
+
+<p><strong>Description:</strong> {{ project.description }}</p>
+<p><strong>Status:</strong> {{ project.status }}</p>
+<p><strong>Start Date:</strong> {{ project.start_date }}</p>
+<p><strong>Due Date:</strong> {{ project.due_date }}</p>
+
+<h4>Progress: {{ project.progress() }}%</h4>
+
+<div class="progress mb-3">
+    <div class="progress-bar bg-info" style="width: {{ project.progress() }}%;">
+        {{ project.progress() }}%
+    </div>
+</div>
+
+<hr>
+
+<h3>Tasks</h3>
+
+{% if project.tasks|length > 0 %}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Priority</th>
+            <th>Due Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for task in project.tasks %}
+        <tr class="{% if task.status == 'Done' %}table-success{% endif %}">
+            <td>{{ task.title }}</td>
+
+            <td>
+                {% if task.status == "To Do" %}
+                <span class="badge bg-secondary">To Do</span>
+                {% elif task.status == "In Progress" %}
+                <span class="badge bg-primary">In Progress</span>
+                {% else %}
+                <span class="badge bg-success">Done</span>
+                {% endif %}
+            </td>
+
+            <td>{{ task.priority }}</td>
+            <td>{{ task.due_date }}</td>
+
+            <td>
+                <!-- Toggle Status -->
+                <form action="/projects/tasks/{{ task.id }}/toggle" method="POST" style="display:inline;">
+                    <button class="btn btn-sm btn-outline-success">
+                        Toggle
+                    </button>
+                </form>
+
+                <!-- Delete Task -->
+                <form action="/projects/tasks/{{ task.id }}/delete" method="POST" style="display:inline;">
+                    <button class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this task?')">
+                        Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% else %}
+
+<p>No tasks yet for this project.</p>
+
+{% endif %}
+
+<hr>
+
+<h3>Add Task</h3>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    <div class="mb-3">
+        {{ form.title.label }}
+        {{ form.title(class="form-control") }}
+    </div>
+
+    <div class="mb-3">
+        {{ form.description.label }}
+        {{ form.description(class="form-control") }}
+    </div>
+
+    <div class="mb-3">
+        {{ form.status.label }}
+        {{ form.status(class="form-select") }}
+    </div>
+
+    <div class="mb-3">
+        {{ form.priority.label }}
+        {{ form.priority(class="form-select") }}
+    </div>
+
+    <div class="mb-3">
+        {{ form.due_date.label }}
+        {{ form.due_date(class="form-control") }}
+    </div>
+
+    <button class="btn btn-primary">Add Task</button>
+</form>
+
+<a class="btn btn-primary mt-3" href="/projects/">Back to Projects</a>
+
+{% endblock %}

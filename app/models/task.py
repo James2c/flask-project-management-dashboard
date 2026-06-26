@@ -1,4 +1,5 @@
 from app.extensions import db
+from datetime import date
 
 
 class Task(db.Model):
@@ -32,3 +33,13 @@ class Task(db.Model):
 
     def __repr__(self):
         return f"<Task {self.title}>"
+    
+
+    def is_overdue(self):
+        if not self.due_date:
+            return False
+
+        if self.status == "Done":
+            return False
+
+        return self.due_date < date.today()

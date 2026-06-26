@@ -36,21 +36,44 @@
 
     <tbody>
         {% for task in project.tasks %}
-        <tr class="{% if task.status == 'Done' %}table-success{% endif %}">
+        <tr class="
+            {% if task.is_overdue() %}
+                table-danger
+            {% elif task.status == 'Done' %}
+                table-success
+            {% endif %}
+        ">
             <td>{{ task.title }}</td>
 
             <td>
-                {% if task.status == "To Do" %}
-                <span class="badge bg-secondary">To Do</span>
-                {% elif task.status == "In Progress" %}
-                <span class="badge bg-primary">In Progress</span>
-                {% else %}
-                <span class="badge bg-success">Done</span>
+                <div>
+                    {% if task.status == "To Do" %}
+                    <span class="badge bg-secondary">To Do</span>
+                    {% elif task.status == "In Progress" %}
+                    <span class="badge bg-primary">In Progress</span>
+                    {% else %}
+                    <span class="badge bg-success">Done</span>
+                    {% endif %}
+                </div>
+
+                {% if task.is_overdue() %}
+                <div class="mt-1">
+                    <span class="badge bg-danger">Overdue</span>
+                </div>
                 {% endif %}
             </td>
 
             <td>{{ task.priority }}</td>
-            <td>{{ task.due_date }}</td>
+
+            <td>
+                {{ task.due_date }}
+
+                {% if task.is_overdue() %}
+                <span class="text-danger fw-bold">
+                    (Past Due)
+                </span>
+                {% endif %}
+            </td>
 
             <td>
                 <!-- Toggle Status -->

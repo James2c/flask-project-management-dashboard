@@ -33,6 +33,17 @@
         </div>
     </div>
 
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card border-danger">
+                <div class="card-body">
+                    <h5 class="card-title text-danger"> Overdue Tasks </h5>
+                    <h2> {{ overdue_tasks|length }} </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <hr>
@@ -59,5 +70,45 @@
 </div>
 
 {% endfor %}
+
+<hr>
+
+<h3>Overdue Tasks</h3>
+
+{% if overdue_tasks|length > 0 %}
+
+<table class="table table-striped">
+
+    <thead>
+        <tr>
+            <th>Task</th>
+            <th>Project</th>
+            <th>Due Date</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {% for task in overdue_tasks %}
+
+        <tr class="table-danger">
+
+            <td>{{ task.title }}</td>
+            <td>{{ task.project.name }}</td>
+            <td>{{ task.due_date }}</td>
+
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% else %}
+
+<p>No overdue tasks!</p>
+
+{% endif %}
 
 {% endblock %}

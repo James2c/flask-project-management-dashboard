@@ -108,13 +108,13 @@ python -m venv .venv
 
 3. Activate the environment:
 
-#### Windows
+# Windows
 
 ```bash
 .venv\Scripts\activate
 ```
 
-#### macOS / Linux
+# macOS / Linux
 
 ```bash
 source .venv/bin/activate
@@ -184,7 +184,3 @@ This project was created to strengthen practical experience with:
 - Git and GitHub workflows
 
 ---
-
-## License
-
-This project is available for educational and portfolio purposes.

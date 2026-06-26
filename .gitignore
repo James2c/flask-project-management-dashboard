@@ -17,3 +17,9 @@ __pycache__/
 # OS Files
 .DS_Store
 Thumbs.db
+
+# Flask instance folder
+instance/
+
+# macOS
+.DS_Store

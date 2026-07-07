@@ -31,9 +31,24 @@ class Task(db.Model):
         nullable=False
     )
 
+    def __init__(
+        self,
+        title,
+        description=None,
+        status="To Do",
+        priority="Medium",
+        due_date=None,
+        project_id=None
+    ):
+        self.title = title
+        self.description = description
+        self.status = status
+        self.priority = priority
+        self.due_date = due_date
+        self.project_id = project_id
+
     def __repr__(self):
         return f"<Task {self.title}>"
-    
 
     def is_overdue(self):
         if not self.due_date:

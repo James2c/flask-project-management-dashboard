@@ -76,6 +76,7 @@ def edit_project(project_id):
 @projects_bp.route("/<int:project_id>", methods=["GET", "POST"])
 def project_detail(project_id):
     project = Project.query.get_or_404(project_id)
+    status_filter = request.args.get("status", "All")
     form = TaskForm()
 
     if form.validate_on_submit():
@@ -93,10 +94,20 @@ def project_detail(project_id):
 
         return redirect(f"/projects/{project.id}")
 
+    if status_filter == "All":
+        filtered_tasks = project.tasks
+    else:
+        filtered_tasks = [
+            task for task in project.tasks
+            if task.status == status_filter
+        ]
+
     return render_template(
         "project_detail.html",
         project=project,
-        form=form
+        form=form,
+        tasks=filtered_tasks,
+        status_filter=status_filter
     )
 
 

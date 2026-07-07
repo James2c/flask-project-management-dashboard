@@ -19,9 +19,37 @@
 
 <hr>
 
+<form method="GET" class="row mb-3">
+
+    <div class="col-md-4">
+
+        <select name="status" class="form-select" onchange="this.form.submit()">
+
+            <option value="All" {% if status_filter=="All" %}selected{% endif %}>
+                All Tasks
+            </option>
+
+            <option value="To Do" {% if status_filter=="To Do" %}selected{% endif %}>
+                To Do
+            </option>
+
+            <option value="In Progress" {% if status_filter=="In Progress" %}selected{% endif %}>
+                In Progress
+            </option>
+
+            <option value="Done" {% if status_filter=="Done" %}selected{% endif %}>
+                Done
+            </option>
+
+        </select>
+
+    </div>
+
+</form>
+
 <h3>Tasks</h3>
 
-{% if project.tasks|length > 0 %}
+{% if tasks|length > 0 %}
 
 <table class="table table-striped">
     <thead>
@@ -35,7 +63,7 @@
     </thead>
 
     <tbody>
-        {% for task in project.tasks %}
+        {% for task in tasks %}
         <tr class="
             {% if task.is_overdue() %}
                 table-danger

@@ -11,8 +11,22 @@ projects_bp = Blueprint("projects", __name__, url_prefix="/projects")
 
 @projects_bp.route("/", methods=["GET"])
 def projects():
-    all_projects = Project.query.all()
-    return render_template("projects.html", projects=all_projects)
+    search = request.args.get("search", "").strip()
+
+    if search:
+        all_projects = (
+            Project.query
+            .filter(Project.name.ilike(f"%{search}%"))
+            .all()
+        )
+    else:
+        all_projects = Project.query.all()
+
+    return render_template(
+        "projects.html",
+        projects=all_projects,
+        search=search
+    )
 
 
 @projects_bp.route("/create", methods=["GET", "POST"])

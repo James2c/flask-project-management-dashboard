@@ -59,19 +59,19 @@
     {{ project.name }}
 </h5>
 
-<div class="progress">
+{% set progress = project.progress() %}
+
+<div class="progress" style="height: 30px;">
 
     <div class="progress-bar
-        {% if project.progress() == 100 %}
+        {% if progress == 100 %}
             bg-success
-        {% elif project.progress() > 50 %}
+        {% elif progress > 50 %}
             bg-primary
         {% else %}
             bg-warning
-        {% endif %}" role="progressbar" style="width: {{ project.progress() }}%;">
-
-        {{ project.progress() }}%
-
+        {% endif %}" role="progressbar" style="width: {{ progress }}%;">
+        {{ progress }}%
     </div>
 
 </div>

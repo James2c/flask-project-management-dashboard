@@ -77,6 +77,7 @@ def edit_project(project_id):
 def project_detail(project_id):
     project = Project.query.get_or_404(project_id)
     status_filter = request.args.get("status", "All")
+    priority_filter = request.args.get("priority", "All")
     form = TaskForm()
 
     if form.validate_on_submit():
@@ -94,12 +95,18 @@ def project_detail(project_id):
 
         return redirect(f"/projects/{project.id}")
 
-    if status_filter == "All":
-        filtered_tasks = project.tasks
-    else:
+    filtered_tasks = project.tasks
+
+    if status_filter != "All":
         filtered_tasks = [
-            task for task in project.tasks
+            task for task in filtered_tasks
             if task.status == status_filter
+        ]
+
+    if priority_filter != "All":
+        filtered_tasks = [
+            task for task in filtered_tasks
+            if task.priority == priority_filter
         ]
 
     return render_template(
@@ -107,7 +114,8 @@ def project_detail(project_id):
         project=project,
         form=form,
         tasks=filtered_tasks,
-        status_filter=status_filter
+        status_filter=status_filter,
+        priority_filter=priority_filter
     )
 
 

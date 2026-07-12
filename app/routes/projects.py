@@ -117,29 +117,3 @@ def project_detail(project_id):
         status_filter=status_filter,
         priority_filter=priority_filter
     )
-
-
-@projects_bp.route("/tasks/<int:task_id>/toggle", methods=["POST"])
-def toggle_task(task_id):
-    task = Task.query.get_or_404(task_id)
-
-    if task.status == "Done":
-        task.status = "To Do"
-    else:
-        task.status = "Done"
-
-    db.session.commit()
-
-    return redirect(url_for("projects.project_detail", project_id=task.project_id))
-
-
-@projects_bp.route("/tasks/<int:task_id>/delete", methods=["POST"])
-def delete_task(task_id):
-    task = Task.query.get_or_404(task_id)
-
-    project_id = task.project_id
-
-    db.session.delete(task)
-    db.session.commit()
-
-    return redirect(url_for("projects.project_detail", project_id=project_id))

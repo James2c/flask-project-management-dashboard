@@ -12,6 +12,8 @@ def dashboard():
     total_projects = len(projects)
     active_projects = Project.query.filter_by(status="Active").count()
     completed_projects = Project.query.filter_by(status="Completed").count()
+    active_count = Project.query.filter_by(status="Active").count()
+    completed_count = Project.query.filter_by(status="Completed").count()
 
     overdue_tasks = [
         task for task in Task.query.all()
@@ -23,6 +25,8 @@ def dashboard():
         total_projects=total_projects,
         active_projects=active_projects,
         completed_projects=completed_projects,
+        overdue_tasks=overdue_tasks,
         projects=projects,
-        overdue_tasks=overdue_tasks
+        active_count=active_count,
+        completed_count=completed_count,
     )

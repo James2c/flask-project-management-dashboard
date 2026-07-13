@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 class="mb-4">{{ project.name }} Board</h1>
+
+<div class="row">
+
+    <div class="col-md-4">
+        <h3 class="text-center">To Do</h3>
+
+        {% for task in todo_tasks %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5>{{ task.title }}</h5>
+                <p>{{ task.description }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="col-md-4">
+        <h3 class="text-center">In Progress</h3>
+
+        {% for task in progress_tasks %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5>{{ task.title }}</h5>
+                <p>{{ task.description }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="col-md-4">
+        <h3 class="text-center">Done</h3>
+
+        {% for task in done_tasks %}
+        <div class="card mb-3 border-success">
+            <div class="card-body">
+                <h5>{{ task.title }}</h5>
+                <p>{{ task.description }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}

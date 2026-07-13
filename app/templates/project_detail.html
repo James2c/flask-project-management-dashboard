@@ -4,6 +4,10 @@
 
 <h1>{{ project.name }}</h1>
 
+<a href="{{ url_for('projects.project_board', project_id=project.id) }}" class="btn btn-outline-primary mb-3">
+    Kanban Board
+</a>
+
 <p><strong>Description:</strong> {{ project.description }}</p>
 <p><strong>Status:</strong> {{ project.status }}</p>
 <p><strong>Start Date:</strong> {{ project.start_date }}</p>
@@ -138,14 +142,16 @@
 
             <td>
                 <!-- Toggle Status -->
-                <form action="/projects/tasks/{{ task.id }}/toggle" method="POST" style="display:inline;">
+                <form action="{{ url_for('tasks.toggle_task', task_id=task.id) }}" method="POST"
+                    style="display:inline;">
                     <button class="btn btn-sm btn-outline-success">
                         Toggle
                     </button>
                 </form>
 
                 <!-- Delete Task -->
-                <form action="/projects/tasks/{{ task.id }}/delete" method="POST" style="display:inline;">
+                <form action="{{ url_for('tasks.delete_task', task_id=task.id) }}" method="POST"
+                    style="display:inline;">
                     <button class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this task?')">
                         Delete
                     </button>
